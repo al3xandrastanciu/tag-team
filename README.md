@@ -4,6 +4,7 @@
     - Frontend: React
     - Backend: Node.js cu Express
     - Baza de date: MongoDB
+		
 
   Echipa de proiect și contribuții:
     Stanciu Alexandra-Valentina: 
