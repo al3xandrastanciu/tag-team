@@ -1,5 +1,5 @@
-const moongose = require('mongoose');
-const { Schema } = moongose;
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const bugSchema = new Schema({
     title: {
@@ -18,21 +18,21 @@ const bugSchema = new Schema({
         required: true
     },
     commitUrl: String,
-    project:{
+    project: {
         type: Schema.Types.ObjectId,
         ref: 'Project',
         required: true
     },
-    reportedBy:{
+    reportedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    assignedTo:{
+    assignedTo: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    status:{
+    status: {
         type: String,
         enum: ['Open', 'In Progress', 'Resolved'],
         default: 'Open'
@@ -40,4 +40,4 @@ const bugSchema = new Schema({
     resolveCommitUrl: String
 }, { timestamps: true });
 
-module.exports = moongose.model('Bug', bugSchema);
+module.exports = mongoose.model('Bug', bugSchema);
