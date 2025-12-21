@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Dashboard = () => {
@@ -39,7 +39,7 @@ const Dashboard = () => {
                     </button>
                 </header>
                 <main className="flex-grow">
-                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
                         <div className="flex items-center mb-6">
                             <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center mr-4">
                                 <span className="text-3xl font-bold text-gray-700">{getInitials(user?.name)}</span>
@@ -57,6 +57,34 @@ const Dashboard = () => {
                                 <span className="material-icons-outlined mr-3 text-lg text-gray-400 dark:text-gray-500">badge</span>
                                 <span>{getRoleName(user?.role)}</span>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Actions Section */}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Acțiuni Rapide</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {user?.role === 'TST' && (
+                                <Link
+                                    to="/report-bug"
+                                    className="flex items-center p-4 bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors duration-200"
+                                >
+                                    <span className="material-symbols-outlined text-primary text-3xl mr-4">bug_report</span>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Raportează Bug</h4>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Creează un nou raport de bug</p>
+                                    </div>
+                                </Link>
+                            )}
+                            {user?.role === 'MP' && (
+                                <div className="flex items-center p-4 bg-blue-500/10 rounded-lg">
+                                    <span className="material-symbols-outlined text-blue-500 text-3xl mr-4">folder</span>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Proiecte</h4>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Gestionează proiectele tale</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </main>
