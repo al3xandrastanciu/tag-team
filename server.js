@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const bugRoutes = require('./routes/bugRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDB();
 //rute
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/bugs', bugRoutes);
 
 app.get('/', (req, res) => {
     res.send('BugCracker API - running')
