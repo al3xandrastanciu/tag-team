@@ -7,21 +7,58 @@ const BugList = () => {
     const [bugs, setBugs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [actionError, setActionError] = useState('');
+    const [showResolveModal, setShowResolveModal] = useState(false);
+    const [selectedBugId, setSelectedBugId] = useState(null);
+    const [resolveCommitUrl, setResolveCommitUrl] = useState('');
     const { user } = useContext(AuthContext);
 
+    const fetchBugs = async () => {
+        try {
+            const response = await api.get('/bugs');
+            setBugs(response.data);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Eroare la încărcarea bug-urilor');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchBugs = async () => {
-            try {
-                const response = await api.get('/bugs');
-                setBugs(response.data);
-            } catch (err) {
-                setError(err.response?.data?.message || 'Eroare la încărcarea bug-urilor');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchBugs();
     }, []);
+
+    const handleAssign = async (bugId) => {
+        setActionError('');
+        try {
+            await api.patch(`/bugs/${bugId}/assign`);
+            fetchBugs(); // Refresh list
+        } catch (err) {
+            setActionError(err.response?.data?.message || 'Eroare la alocare');
+        }
+    };
+
+    const openResolveModal = (bugId) => {
+        setSelectedBugId(bugId);
+        setResolveCommitUrl('');
+        setShowResolveModal(true);
+    };
+
+    const handleResolve = async () => {
+        if (!selectedBugId) return;
+        setActionError('');
+        try {
+            await api.patch(`/bugs/${selectedBugId}/resolve`, {
+                resolveCommitUrl: resolveCommitUrl || undefined
+            });
+            setShowResolveModal(false);
+            setSelectedBugId(null);
+            setResolveCommitUrl('');
+            fetchBugs(); // Refresh list
+        } catch (err) {
+            setActionError(err.response?.data?.message || 'Eroare la rezolvare');
+        }
+    };
 
     const getSeverityColor = (severity) => {
         switch (severity) {
@@ -49,6 +86,16 @@ const BugList = () => {
             case 'Resolved': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
             default: return 'bg-gray-100 text-gray-800';
         }
+    };
+
+    const canAssign = (bug) => {
+        return user?.role === 'MP' && !bug.assignedTo && bug.status !== 'Resolved';
+    };
+
+    const canResolve = (bug) => {
+        return user?.role === 'MP' &&
+            bug.assignedTo?._id === user?.id &&
+            bug.status !== 'Resolved';
     };
 
     if (loading) {
@@ -96,6 +143,19 @@ const BugList = () => {
                         </div>
                     )}
 
+                    {actionError && (
+                        <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-lg mb-6 flex items-center">
+                            <span className="material-symbols-outlined mr-2">error</span>
+                            {actionError}
+                            <button
+                                onClick={() => setActionError('')}
+                                className="ml-auto text-red-700 dark:text-red-400 hover:opacity-70"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                    )}
+
                     {bugs.length === 0 ? (
                         <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center">
                             <span className="material-symbols-outlined text-6xl text-gray-400 mb-4">bug_report</span>
@@ -115,8 +175,10 @@ const BugList = () => {
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Severitate</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Prioritate</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Raportat de</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Data</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Alocat</th>
+                                            {user?.role === 'MP' && (
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acțiuni</th>
+                                            )}
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
@@ -147,13 +209,38 @@ const BugList = () => {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="text-sm text-gray-900 dark:text-white">{bug.reportedBy?.name || 'N/A'}</div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        {new Date(bug.createdAt).toLocaleDateString('ro-RO')}
+                                                    <div className="text-sm text-gray-900 dark:text-white">
+                                                        {bug.assignedTo?.name || '-'}
                                                     </div>
                                                 </td>
+                                                {user?.role === 'MP' && (
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex gap-2">
+                                                            {canAssign(bug) && (
+                                                                <button
+                                                                    onClick={() => handleAssign(bug._id)}
+                                                                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-lg transition-colors"
+                                                                >
+                                                                    Alocă-ți
+                                                                </button>
+                                                            )}
+                                                            {canResolve(bug) && (
+                                                                <button
+                                                                    onClick={() => openResolveModal(bug._id)}
+                                                                    className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-lg transition-colors"
+                                                                >
+                                                                    Rezolvă
+                                                                </button>
+                                                            )}
+                                                            {bug.status === 'Resolved' && (
+                                                                <span className="text-xs text-green-600 dark:text-green-400 flex items-center">
+                                                                    <span className="material-symbols-outlined text-sm mr-1">check_circle</span>
+                                                                    Rezolvat
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                )}
                                             </tr>
                                         ))}
                                     </tbody>
@@ -163,6 +250,49 @@ const BugList = () => {
                     )}
                 </main>
             </div>
+
+            {/* Resolve Modal */}
+            {showResolveModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                            Marchează ca Rezolvat
+                        </h3>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Link Commit Rezolvare (opțional)
+                            </label>
+                            <div className="relative">
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">link</span>
+                                <input
+                                    type="url"
+                                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white"
+                                    placeholder="https://github.com/.../commit/..."
+                                    value={resolveCommitUrl}
+                                    onChange={(e) => setResolveCommitUrl(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => {
+                                    setShowResolveModal(false);
+                                    setSelectedBugId(null);
+                                }}
+                                className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-900 dark:text-white font-medium rounded-lg transition-colors"
+                            >
+                                Anulează
+                            </button>
+                            <button
+                                onClick={handleResolve}
+                                className="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+                            >
+                                Confirmă
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
