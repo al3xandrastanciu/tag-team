@@ -2,6 +2,18 @@
 
 O aplicație modernă de urmărire a bug-urilor pentru echipe de dezvoltare software. Construită cu React, Node.js, Express și MongoDB.
 
+##  Echipa de proiect și contribuții:
+##    Stanciu Alexandra-Valentina: 
+     - dezvoltarea întregului API backend
+     - implementarea sistemului de autentificare și autorizare
+     - proiectarea și implementarea bazei de date și a schemelor de date
+     - implementarea logicii de business pentru alocarea bug-urilor
+	 
+##    Stoica Ioana-Delia:
+      - dezvoltarea interfeței cu utilizatorul
+      - implementarea layout-ului responsive
+      - crearea formularelor pentru înregistrarea bug-ului și actualizarea proiectului
+      - integrarea interfeței cu API-ul backend
 
 ## ✨ Funcționalități
 
