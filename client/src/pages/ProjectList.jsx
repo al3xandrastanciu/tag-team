@@ -34,7 +34,6 @@ const ProjectList = () => {
     return (
         <div className="font-display bg-background-light dark:bg-background-dark min-h-screen">
             <div className="flex flex-col min-h-screen p-4 sm:p-6">
-                {/* Header - Responsive */}
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <Link
@@ -46,7 +45,6 @@ const ProjectList = () => {
                 </header>
 
                 <main className="flex-grow">
-                    {/* Title - Responsive */}
                     <div className="mb-6">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Proiectele Mele</h2>
                         <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">

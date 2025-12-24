@@ -30,7 +30,6 @@ const Register = () => {
     return (
         <div className="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased min-h-screen">
             <div className="flex flex-col min-h-screen">
-                {/* Header - Responsive */}
                 <header className="text-center pt-8 sm:pt-16 pb-4 sm:pb-8 px-4">
                     <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">BugCracker</h1>
                 </header>
@@ -40,7 +39,6 @@ const Register = () => {
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-900 dark:text-white">Înregistrare</h2>
 
                         <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
-                            {/* Name */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">Nume:</label>
                                 <div className="relative">
@@ -59,7 +57,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Email */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">Email:</label>
                                 <div className="relative">
@@ -78,7 +75,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Password */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">Parolă:</label>
                                 <div className="relative">
@@ -97,7 +93,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Role */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="role">Rol:</label>
                                 <div className="relative">
@@ -116,7 +111,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Error Message */}
                             {error && (
                                 <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded-lg text-sm flex items-center">
                                     <span className="material-symbols-outlined mr-2 text-lg">error</span>
@@ -124,7 +118,6 @@ const Register = () => {
                                 </div>
                             )}
 
-                            {/* Submit Button */}
                             <div className="pt-2 sm:pt-4">
                                 <button
                                     className="w-full bg-primary text-black font-bold py-3 sm:py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
@@ -136,7 +129,6 @@ const Register = () => {
                             </div>
                         </form>
 
-                        {/* Login Link */}
                         <p className="text-center mt-6 sm:mt-8 text-sm text-gray-600 dark:text-gray-400">
                             Ai deja cont?{' '}
                             <Link className="font-medium text-primary hover:underline" to="/login">Autentifică-te</Link>
@@ -144,7 +136,6 @@ const Register = () => {
                     </div>
                 </main>
 
-                {/* Bottom indicator (mobile) */}
                 <footer className="py-4 sm:py-6">
                     <div className="w-36 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"></div>
                 </footer>

@@ -45,36 +45,47 @@
       font-size: inherit;
     }
 
-    /* Mobile-first responsive styles */
     body {
       min-height: 100dvh;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Better touch targets for mobile */
-    button, a, input, select, textarea {
+    button,
+    a,
+    input,
+    select,
+    textarea {
       touch-action: manipulation;
     }
 
-    /* Hide scrollbar but allow scroll */
     .hide-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
 
-    /* Safe area insets for notched phones */
-    .safe-top { padding-top: env(safe-area-inset-top); }
-    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-    .safe-left { padding-left: env(safe-area-inset-left); }
-    .safe-right { padding-right: env(safe-area-inset-right); }
+    .safe-top {
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .safe-left {
+      padding-left: env(safe-area-inset-left);
+    }
+
+    .safe-right {
+      padding-right: env(safe-area-inset-right);
+    }
   </style>
 </head>
 

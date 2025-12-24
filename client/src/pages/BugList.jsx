@@ -109,7 +109,6 @@ const BugList = () => {
     return (
         <div className="font-display bg-background-light dark:bg-background-dark min-h-screen">
             <div className="flex flex-col min-h-screen p-4 sm:p-6">
-                {/* Header - Responsive */}
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <Link
@@ -121,7 +120,6 @@ const BugList = () => {
                 </header>
 
                 <main className="flex-grow">
-                    {/* Title Section - Responsive */}
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                         <div>
                             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Lista Bug-uri</h2>
@@ -139,7 +137,6 @@ const BugList = () => {
                         )}
                     </div>
 
-                    {/* Errors */}
                     {error && (
                         <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-lg mb-6 text-sm sm:text-base">
                             {error}
@@ -169,7 +166,6 @@ const BugList = () => {
                         </div>
                     ) : (
                         <>
-                            {/* Desktop Table View */}
                             <div className="hidden md:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -253,7 +249,6 @@ const BugList = () => {
                                 </div>
                             </div>
 
-                            {/* Mobile Card View */}
                             <div className="md:hidden space-y-4">
                                 {bugs.map((bug) => (
                                     <div key={bug._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
@@ -322,7 +317,6 @@ const BugList = () => {
                 </main>
             </div>
 
-            {/* Resolve Modal - Responsive */}
             {showResolveModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-4 z-50">
                     <div className="bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-lg shadow-xl p-6 w-full sm:max-w-md safe-bottom">

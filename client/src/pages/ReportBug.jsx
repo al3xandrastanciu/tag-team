@@ -70,7 +70,6 @@ const ReportBug = () => {
         }
     };
 
-    // Check if user is TST
     if (user?.role !== 'TST') {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4 sm:p-6">
@@ -94,7 +93,6 @@ const ReportBug = () => {
     return (
         <div className="bg-background-light dark:bg-background-dark font-display min-h-screen">
             <div className="flex flex-col min-h-screen p-4 sm:p-6">
-                {/* Header - Responsive */}
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <Link
@@ -111,7 +109,6 @@ const ReportBug = () => {
                         <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8">Completează formularul pentru a raporta un bug nou.</p>
 
                         <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
-                            {/* Title */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="title">
                                     Titlu *
@@ -130,7 +127,6 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Description */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="description">
                                     Descriere
@@ -144,7 +140,6 @@ const ReportBug = () => {
                                 />
                             </div>
 
-                            {/* Project */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="project">
                                     Proiect *
@@ -172,9 +167,7 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Severity & Priority Row - Stack on mobile */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                                {/* Severity */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="severity">
                                         Severitate *
@@ -197,7 +190,6 @@ const ReportBug = () => {
                                     </div>
                                 </div>
 
-                                {/* Priority */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="priority">
                                         Prioritate *
@@ -220,7 +212,6 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Commit URL */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="commitUrl">
                                     Link Commit (opțional)
@@ -238,7 +229,6 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Error/Success Messages */}
                             {error && (
                                 <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 sm:p-4 rounded-lg flex items-center text-sm sm:text-base">
                                     <span className="material-symbols-outlined mr-2 text-lg">error</span>
@@ -252,7 +242,6 @@ const ReportBug = () => {
                                 </div>
                             )}
 
-                            {/* Submit Button */}
                             <div className="pt-2 sm:pt-4">
                                 <button
                                     className="w-full bg-primary text-gray-900 font-bold py-3 sm:py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"

@@ -27,7 +27,6 @@ const Dashboard = () => {
     return (
         <div className="font-display bg-background-light dark:bg-background-dark">
             <div className="min-h-screen flex flex-col p-4 sm:p-6">
-                {/* Header - Responsive */}
                 <header className="mb-6 sm:mb-8 flex justify-between items-center">
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <button
@@ -39,7 +38,6 @@ const Dashboard = () => {
                 </header>
 
                 <main className="flex-grow">
-                    {/* User Info Card - Responsive */}
                     <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md mb-6">
                         <div className="flex items-center mb-4 sm:mb-6">
                             <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary flex items-center justify-center mr-3 sm:mr-4 shrink-0">
@@ -60,11 +58,9 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* Quick Actions - Responsive Grid */}
                     <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md">
                         <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Acțiuni Rapide</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                            {/* View Bugs */}
                             <Link
                                 to="/bugs"
                                 className="flex items-center p-3 sm:p-4 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-colors duration-200 active:scale-[0.98]"
@@ -76,7 +72,6 @@ const Dashboard = () => {
                                 </div>
                             </Link>
 
-                            {/* View Projects */}
                             <Link
                                 to="/projects"
                                 className="flex items-center p-3 sm:p-4 bg-purple-500/10 hover:bg-purple-500/20 rounded-lg transition-colors duration-200 active:scale-[0.98]"
@@ -88,7 +83,6 @@ const Dashboard = () => {
                                 </div>
                             </Link>
 
-                            {/* Report Bug - Only for TST */}
                             {user?.role === 'TST' && (
                                 <Link
                                     to="/report-bug"
@@ -98,6 +92,19 @@ const Dashboard = () => {
                                     <div className="min-w-0">
                                         <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Raportează Bug</h4>
                                         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Creează un nou raport</p>
+                                    </div>
+                                </Link>
+                            )}
+
+                            {user?.role === 'MP' && (
+                                <Link
+                                    to="/create-project"
+                                    className="flex items-center p-3 sm:p-4 bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors duration-200 active:scale-[0.98]"
+                                >
+                                    <span className="material-symbols-outlined text-primary text-2xl sm:text-3xl mr-3 sm:mr-4">create_new_folder</span>
+                                    <div className="min-w-0">
+                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Creează Proiect</h4>
+                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Înregistrează proiect nou</p>
                                     </div>
                                 </Link>
                             )}

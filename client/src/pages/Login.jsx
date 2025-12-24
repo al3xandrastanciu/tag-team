@@ -28,21 +28,17 @@ const Login = () => {
     return (
         <div className="flex flex-col min-h-screen items-center justify-center p-4 sm:p-6 bg-background-light dark:bg-background-dark font-display">
             <main className="w-full max-w-md">
-                {/* Logo/Brand - Responsive */}
                 <div className="text-center mb-8 sm:mb-12">
                     <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">Track bugs with ease.</p>
                 </div>
 
-                {/* Login Header */}
                 <div className="text-left mb-6 sm:mb-8">
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Login</h2>
                     <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1">Welcome back! Please enter your details.</p>
                 </div>
 
-                {/* Form */}
                 <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
-                    {/* Email */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">Email</label>
                         <div className="relative">
@@ -63,7 +59,6 @@ const Login = () => {
                         </div>
                     </div>
 
-                    {/* Password */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">Password</label>
                         <div className="relative">
@@ -84,7 +79,6 @@ const Login = () => {
                         </div>
                     </div>
 
-                    {/* Error Message */}
                     {error && (
                         <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded-lg text-sm flex items-center">
                             <span className="material-symbols-outlined mr-2 text-lg">error</span>
@@ -92,7 +86,6 @@ const Login = () => {
                         </div>
                     )}
 
-                    {/* Submit Button */}
                     <div className="pt-2 sm:pt-4">
                         <button
                             className="w-full bg-primary text-gray-900 font-bold py-3 sm:py-3 px-4 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
@@ -104,7 +97,6 @@ const Login = () => {
                     </div>
                 </form>
 
-                {/* Register Link */}
                 <div className="text-center mt-6 sm:mt-8">
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                         Don't have an account?{' '}
