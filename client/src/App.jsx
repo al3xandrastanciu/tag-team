@@ -7,6 +7,7 @@ import ReportBug from './pages/ReportBug';
 import BugList from './pages/BugList';
 import ProjectList from './pages/ProjectList';
 import CreateProject from './pages/CreateProject';
+import JoinProject from './pages/JoinProject';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CreateProject />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/join-project"
+            element={
+              <ProtectedRoute>
+                <JoinProject />
               </ProtectedRoute>
             }
           />

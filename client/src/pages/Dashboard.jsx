@@ -96,6 +96,19 @@ const Dashboard = () => {
                                 </Link>
                             )}
 
+                            {user?.role === 'TST' && (
+                                <Link
+                                    to="/join-project"
+                                    className="flex items-center p-3 sm:p-4 bg-orange-500/10 hover:bg-orange-500/20 rounded-lg transition-colors duration-200 active:scale-[0.98]"
+                                >
+                                    <span className="material-symbols-outlined text-orange-500 text-2xl sm:text-3xl mr-3 sm:mr-4">group_add</span>
+                                    <div className="min-w-0">
+                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Alătură-te la Proiect</h4>
+                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Înscrie-te ca tester</p>
+                                    </div>
+                                </Link>
+                            )}
+
                             {user?.role === 'MP' && (
                                 <Link
                                     to="/create-project"
