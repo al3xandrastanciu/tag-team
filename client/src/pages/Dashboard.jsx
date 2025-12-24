@@ -21,7 +21,7 @@ const Dashboard = () => {
     };
 
     const getRoleName = (role) => {
-        return role === 'MP' ? 'Membru Proiect' : 'Tester';
+        return role === 'MP' ? 'Project Member' : 'Tester';
     };
 
     return (
@@ -45,7 +45,7 @@ const Dashboard = () => {
                             </div>
                             <div className="min-w-0">
                                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">
-                                    Bine ai venit, {user?.name}!
+                                    Welcome, {user?.name}!
                                 </h2>
                                 <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">{getRoleName(user?.role)}</p>
                             </div>
@@ -59,7 +59,7 @@ const Dashboard = () => {
                     </div>
 
                     <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md">
-                        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Acțiuni Rapide</h3>
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             <Link
                                 to="/bugs"
@@ -67,8 +67,8 @@ const Dashboard = () => {
                             >
                                 <span className="material-symbols-outlined text-blue-500 text-2xl sm:text-3xl mr-3 sm:mr-4">bug_report</span>
                                 <div className="min-w-0">
-                                    <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Vezi Bug-uri</h4>
-                                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Lista completă de bug-uri</p>
+                                    <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">View Bugs</h4>
+                                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Complete bug list</p>
                                 </div>
                             </Link>
 
@@ -78,8 +78,8 @@ const Dashboard = () => {
                             >
                                 <span className="material-symbols-outlined text-purple-500 text-2xl sm:text-3xl mr-3 sm:mr-4">folder</span>
                                 <div className="min-w-0">
-                                    <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Proiecte</h4>
-                                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Gestionează proiectele</p>
+                                    <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Projects</h4>
+                                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Manage projects</p>
                                 </div>
                             </Link>
 
@@ -90,8 +90,8 @@ const Dashboard = () => {
                                 >
                                     <span className="material-symbols-outlined text-primary text-2xl sm:text-3xl mr-3 sm:mr-4">add_circle</span>
                                     <div className="min-w-0">
-                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Raportează Bug</h4>
-                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Creează un nou raport</p>
+                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Report Bug</h4>
+                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Create a new report</p>
                                     </div>
                                 </Link>
                             )}
@@ -103,8 +103,8 @@ const Dashboard = () => {
                                 >
                                     <span className="material-symbols-outlined text-orange-500 text-2xl sm:text-3xl mr-3 sm:mr-4">group_add</span>
                                     <div className="min-w-0">
-                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Alătură-te la Proiect</h4>
-                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Înscrie-te ca tester</p>
+                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Join Project</h4>
+                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Join as a tester</p>
                                     </div>
                                 </Link>
                             )}
@@ -116,8 +116,8 @@ const Dashboard = () => {
                                 >
                                     <span className="material-symbols-outlined text-primary text-2xl sm:text-3xl mr-3 sm:mr-4">create_new_folder</span>
                                     <div className="min-w-0">
-                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Creează Proiect</h4>
-                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Înregistrează proiect nou</p>
+                                        <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white">Create Project</h4>
+                                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Register new project</p>
                                     </div>
                                 </Link>
                             )}

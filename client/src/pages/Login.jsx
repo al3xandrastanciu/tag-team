@@ -19,7 +19,7 @@ const Login = () => {
             await login(email, password);
             navigate('/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la autentificare');
+            setError(err.response?.data?.message || 'Authentication failed');
         } finally {
             setLoading(false);
         }
@@ -92,7 +92,7 @@ const Login = () => {
                             type="submit"
                             disabled={loading}
                         >
-                            {loading ? 'Se conectează...' : 'Login'}
+                            {loading ? 'Signing in...' : 'Login'}
                         </button>
                     </div>
                 </form>

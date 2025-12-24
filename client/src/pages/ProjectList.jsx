@@ -15,7 +15,7 @@ const ProjectList = () => {
                 const response = await api.get('/projects');
                 setProjects(response.data);
             } catch (err) {
-                setError(err.response?.data?.message || 'Eroare la încărcarea proiectelor');
+                setError(err.response?.data?.message || 'Error loading projects');
             } finally {
                 setLoading(false);
             }
@@ -26,7 +26,7 @@ const ProjectList = () => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
-                <div className="text-gray-600 dark:text-gray-400">Se încarcă...</div>
+                <div className="text-gray-600 dark:text-gray-400">Loading...</div>
             </div>
         );
     }
@@ -40,15 +40,15 @@ const ProjectList = () => {
                         to="/dashboard"
                         className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200 text-center"
                     >
-                        Înapoi
+                        Back
                     </Link>
                 </header>
 
                 <main className="flex-grow">
                     <div className="mb-6">
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Proiectele Mele</h2>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">My Projects</h2>
                         <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                            {user?.role === 'MP' ? 'Proiecte în care ești membru' : 'Proiecte în care ești tester'}
+                            {user?.role === 'MP' ? 'Projects where you are a member' : 'Projects where you are a tester'}
                         </p>
                     </div>
 
@@ -61,9 +61,9 @@ const ProjectList = () => {
                     {projects.length === 0 ? (
                         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center">
                             <span className="material-symbols-outlined text-5xl sm:text-6xl text-gray-400 mb-4">folder_off</span>
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Niciun proiect găsit</h3>
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">No projects found</h3>
                             <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                                Nu faci parte din niciun proiect momentan.
+                                You are not part of any project yet.
                             </p>
                         </div>
                     ) : (
@@ -93,11 +93,11 @@ const ProjectList = () => {
                                     <div className="flex items-center justify-between text-xs sm:text-sm">
                                         <div className="flex items-center text-gray-500 dark:text-gray-400">
                                             <span className="material-symbols-outlined text-sm mr-1">group</span>
-                                            <span>{project.members?.length || 0} membri</span>
+                                            <span>{project.members?.length || 0} members</span>
                                         </div>
                                         <div className="flex items-center text-gray-500 dark:text-gray-400">
                                             <span className="material-symbols-outlined text-sm mr-1">bug_report</span>
-                                            <span>{project.testers?.length || 0} testeri</span>
+                                            <span>{project.testers?.length || 0} testers</span>
                                         </div>
                                     </div>
                                 </div>

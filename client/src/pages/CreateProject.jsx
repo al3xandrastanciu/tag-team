@@ -26,7 +26,7 @@ const CreateProject = () => {
                 description
             });
 
-            setSuccess('Proiect creat cu succes!');
+            setSuccess('Project created successfully!');
             setName('');
             setRepoUrl('');
             setDescription('');
@@ -35,7 +35,7 @@ const CreateProject = () => {
                 navigate('/projects');
             }, 2000);
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la crearea proiectului');
+            setError(err.response?.data?.message || 'Error creating project');
         } finally {
             setLoading(false);
         }
@@ -46,15 +46,15 @@ const CreateProject = () => {
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4 sm:p-6">
                 <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center max-w-md w-full">
                     <span className="material-symbols-outlined text-5xl sm:text-6xl text-red-500 mb-4">block</span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Acces Restricționat</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Access Restricted</h2>
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6">
-                        Doar utilizatorii cu rol de <strong>Membru Proiect (MP)</strong> pot crea proiecte.
+                        Only users with the <strong>Project Member (MP)</strong> role can create projects.
                     </p>
                     <Link
                         to="/dashboard"
                         className="inline-block bg-primary text-gray-900 font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
                     >
-                        Înapoi la Dashboard
+                        Back to Dashboard
                     </Link>
                 </div>
             </div>
@@ -70,19 +70,19 @@ const CreateProject = () => {
                         to="/dashboard"
                         className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200 text-center"
                     >
-                        Înapoi
+                        Back
                     </Link>
                 </header>
 
                 <main className="flex-grow">
                     <div className="w-full max-w-2xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900 dark:text-white">Creează Proiect</h2>
-                        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8">Înregistrează un nou proiect software pentru monitorizare.</p>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900 dark:text-white">Create Project</h2>
+                        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8">Register a new software project for monitoring.</p>
 
                         <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">
-                                    Nume Proiect *
+                                    Project Name *
                                 </label>
                                 <div className="relative">
                                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">folder</span>
@@ -118,12 +118,12 @@ const CreateProject = () => {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="description">
-                                    Descriere
+                                    Description
                                 </label>
                                 <textarea
                                     className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 min-h-[100px] sm:min-h-[120px] text-base resize-y"
                                     id="description"
-                                    placeholder="Descrie proiectul pe scurt..."
+                                    placeholder="Describe the project briefly..."
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
@@ -148,7 +148,7 @@ const CreateProject = () => {
                                     type="submit"
                                     disabled={loading}
                                 >
-                                    {loading ? 'Se creează...' : 'Creează Proiect'}
+                                    {loading ? 'Creating...' : 'Create Project'}
                                 </button>
                             </div>
                         </form>

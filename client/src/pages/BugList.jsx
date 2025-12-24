@@ -18,7 +18,7 @@ const BugList = () => {
             const response = await api.get('/bugs');
             setBugs(response.data);
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la încărcarea bug-urilor');
+            setError(err.response?.data?.message || 'Error loading bugs');
         } finally {
             setLoading(false);
         }
@@ -34,7 +34,7 @@ const BugList = () => {
             await api.patch(`/bugs/${bugId}/assign`);
             fetchBugs();
         } catch (err) {
-            setActionError(err.response?.data?.message || 'Eroare la alocare');
+            setActionError(err.response?.data?.message || 'Error assigning');
         }
     };
 
@@ -56,7 +56,7 @@ const BugList = () => {
             setResolveCommitUrl('');
             fetchBugs();
         } catch (err) {
-            setActionError(err.response?.data?.message || 'Eroare la rezolvare');
+            setActionError(err.response?.data?.message || 'Error resolving');
         }
     };
 
@@ -101,7 +101,7 @@ const BugList = () => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
-                <div className="text-gray-600 dark:text-gray-400">Se încarcă...</div>
+                <div className="text-gray-600 dark:text-gray-400">Loading...</div>
             </div>
         );
     }
@@ -115,16 +115,16 @@ const BugList = () => {
                         to="/dashboard"
                         className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200 text-center sm:w-auto"
                     >
-                        Înapoi
+                        Back
                     </Link>
                 </header>
 
                 <main className="flex-grow">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                         <div>
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Lista Bug-uri</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Bug List</h2>
                             <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                                {user?.role === 'TST' ? 'Bug-urile raportate de tine' : 'Bug-uri din proiectele tale'}
+                                {user?.role === 'TST' ? 'Bugs reported by you' : 'Bugs in your projects'}
                             </p>
                         </div>
                         {user?.role === 'TST' && (
@@ -132,7 +132,7 @@ const BugList = () => {
                                 to="/report-bug"
                                 className="px-4 py-2 bg-primary text-gray-900 font-bold rounded-lg hover:opacity-90 transition-opacity text-center"
                             >
-                                + Raportează Bug
+                                + Report Bug
                             </Link>
                         )}
                     </div>
@@ -159,9 +159,9 @@ const BugList = () => {
                     {bugs.length === 0 ? (
                         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center">
                             <span className="material-symbols-outlined text-5xl sm:text-6xl text-gray-400 mb-4">bug_report</span>
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Niciun bug găsit</h3>
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">No bugs found</h3>
                             <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                                {user?.role === 'TST' ? 'Nu ai raportat încă niciun bug.' : 'Nu există bug-uri în proiectele tale.'}
+                                {user?.role === 'TST' ? 'You have not reported any bugs yet.' : 'There are no bugs in your projects.'}
                             </p>
                         </div>
                     ) : (
@@ -171,14 +171,14 @@ const BugList = () => {
                                     <table className="w-full">
                                         <thead className="bg-gray-50 dark:bg-gray-700">
                                             <tr>
-                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Titlu</th>
-                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Proiect</th>
-                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Severitate</th>
-                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Prioritate</th>
+                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
+                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Project</th>
+                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Severity</th>
+                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Priority</th>
                                                 <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Alocat</th>
+                                                <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Assigned</th>
                                                 {user?.role === 'MP' && (
-                                                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acțiuni</th>
+                                                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                                                 )}
                                             </tr>
                                         </thead>
@@ -222,7 +222,7 @@ const BugList = () => {
                                                                         onClick={() => handleAssign(bug._id)}
                                                                         className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-lg transition-colors"
                                                                     >
-                                                                        Alocă-ți
+                                                                        Assign
                                                                     </button>
                                                                 )}
                                                                 {canResolve(bug) && (
@@ -230,13 +230,13 @@ const BugList = () => {
                                                                         onClick={() => openResolveModal(bug._id)}
                                                                         className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-lg transition-colors"
                                                                     >
-                                                                        Rezolvă
+                                                                        Resolve
                                                                     </button>
                                                                 )}
                                                                 {bug.status === 'Resolved' && (
                                                                     <span className="text-xs text-green-600 dark:text-green-400 flex items-center">
                                                                         <span className="material-symbols-outlined text-sm mr-1">check_circle</span>
-                                                                        Rezolvat
+                                                                        Resolved
                                                                     </span>
                                                                 )}
                                                             </div>
@@ -279,7 +279,7 @@ const BugList = () => {
                                             </div>
                                             <div className="flex items-center">
                                                 <span className="material-symbols-outlined text-sm mr-2">person</span>
-                                                <span>Alocat: {bug.assignedTo?.name || 'Nealocat'}</span>
+                                                <span>Assigned: {bug.assignedTo?.name || 'Unassigned'}</span>
                                             </div>
                                         </div>
 
@@ -290,7 +290,7 @@ const BugList = () => {
                                                         onClick={() => handleAssign(bug._id)}
                                                         className="flex-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
                                                     >
-                                                        Alocă-ți
+                                                        Assign
                                                     </button>
                                                 )}
                                                 {canResolve(bug) && (
@@ -298,13 +298,13 @@ const BugList = () => {
                                                         onClick={() => openResolveModal(bug._id)}
                                                         className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
                                                     >
-                                                        Rezolvă
+                                                        Resolve
                                                     </button>
                                                 )}
                                                 {bug.status === 'Resolved' && (
                                                     <div className="flex-1 flex items-center justify-center text-sm text-green-600 dark:text-green-400">
                                                         <span className="material-symbols-outlined text-sm mr-1">check_circle</span>
-                                                        Rezolvat
+                                                        Resolved
                                                     </div>
                                                 )}
                                             </div>
@@ -322,11 +322,11 @@ const BugList = () => {
                     <div className="bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-lg shadow-xl p-6 w-full sm:max-w-md safe-bottom">
                         <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4 sm:hidden"></div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                            Marchează ca Rezolvat
+                            Mark as Resolved
                         </h3>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Link Commit Rezolvare (opțional)
+                                Resolve Commit Link (optional)
                             </label>
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">link</span>
@@ -347,13 +347,13 @@ const BugList = () => {
                                 }}
                                 className="flex-1 px-4 py-3 sm:py-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-900 dark:text-white font-medium rounded-lg transition-colors"
                             >
-                                Anulează
+                                Cancel
                             </button>
                             <button
                                 onClick={handleResolve}
                                 className="flex-1 px-4 py-3 sm:py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
                             >
-                                Confirmă
+                                Confirm
                             </button>
                         </div>
                     </div>

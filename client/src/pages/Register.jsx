@@ -21,7 +21,7 @@ const Register = () => {
             await register(name, email, password, role);
             navigate('/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la înregistrare');
+            setError(err.response?.data?.message || 'Registration failed');
         } finally {
             setLoading(false);
         }
@@ -36,18 +36,18 @@ const Register = () => {
 
                 <main className="flex-grow px-4 sm:px-6 pb-6">
                     <div className="w-full max-w-md mx-auto">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-900 dark:text-white">Înregistrare</h2>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-900 dark:text-white">Register</h2>
 
                         <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">Nume:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">Name:</label>
                                 <div className="relative">
                                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">person</span>
                                     <input
                                         className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="name"
                                         name="name"
-                                        placeholder="e.g. Popescu Luca"
+                                        placeholder="e.g. John Doe"
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
@@ -76,7 +76,7 @@ const Register = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">Parolă:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">Password:</label>
                                 <div className="relative">
                                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">lock</span>
                                     <input
@@ -94,7 +94,7 @@ const Register = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="role">Rol:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="role">Role:</label>
                                 <div className="relative">
                                     <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">badge</span>
                                     <select
@@ -104,7 +104,7 @@ const Register = () => {
                                         value={role}
                                         onChange={(e) => setRole(e.target.value)}
                                     >
-                                        <option value="MP">Membru Proiect</option>
+                                        <option value="MP">Project Member</option>
                                         <option value="TST">Tester</option>
                                     </select>
                                     <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">expand_more</span>
@@ -124,14 +124,14 @@ const Register = () => {
                                     type="submit"
                                     disabled={loading}
                                 >
-                                    {loading ? 'Se creează contul...' : 'Înregistrare'}
+                                    {loading ? 'Creating account...' : 'Register'}
                                 </button>
                             </div>
                         </form>
 
                         <p className="text-center mt-6 sm:mt-8 text-sm text-gray-600 dark:text-gray-400">
-                            Ai deja cont?{' '}
-                            <Link className="font-medium text-primary hover:underline" to="/login">Autentifică-te</Link>
+                            Already have an account?{' '}
+                            <Link className="font-medium text-primary hover:underline" to="/login">Login</Link>
                         </p>
                     </div>
                 </main>

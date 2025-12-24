@@ -16,7 +16,7 @@ const JoinProject = () => {
             const response = await api.get('/projects/joinable');
             setProjects(response.data);
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la încărcarea proiectelor');
+            setError(err.response?.data?.message || 'Error loading projects');
         } finally {
             setLoading(false);
         }
@@ -33,10 +33,10 @@ const JoinProject = () => {
 
         try {
             await api.patch(`/projects/${projectId}/join`);
-            setSuccess(`Te-ai alăturat proiectului "${projectName}" ca tester!`);
+            setSuccess(`You joined the project "${projectName}" as a tester!`);
             fetchProjects();
         } catch (err) {
-            setError(err.response?.data?.message || 'Eroare la alăturare');
+            setError(err.response?.data?.message || 'Error joining project');
         } finally {
             setJoiningId(null);
         }
@@ -47,15 +47,15 @@ const JoinProject = () => {
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4 sm:p-6">
                 <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center max-w-md w-full">
                     <span className="material-symbols-outlined text-5xl sm:text-6xl text-red-500 mb-4">block</span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Acces Restricționat</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Access Restricted</h2>
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6">
-                        Doar utilizatorii cu rol de <strong>Tester (TST)</strong> pot accesa această pagină.
+                        Only users with the <strong>Tester (TST)</strong> role can access this page.
                     </p>
                     <Link
                         to="/dashboard"
                         className="inline-block bg-primary text-gray-900 font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
                     >
-                        Înapoi la Dashboard
+                        Back to Dashboard
                     </Link>
                 </div>
             </div>
@@ -65,7 +65,7 @@ const JoinProject = () => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
-                <div className="text-gray-600 dark:text-gray-400">Se încarcă...</div>
+                <div className="text-gray-600 dark:text-gray-400">Loading...</div>
             </div>
         );
     }
@@ -79,14 +79,14 @@ const JoinProject = () => {
                         to="/dashboard"
                         className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200 text-center"
                     >
-                        Înapoi
+                        Back
                     </Link>
                 </header>
 
                 <main className="flex-grow">
                     <div className="mb-6">
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Alătură-te unui Proiect</h2>
-                        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">Selectează un proiect pentru a te alătura ca tester</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Join a Project</h2>
+                        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">Select a project to join as a tester</p>
                     </div>
 
                     {error && (
@@ -112,8 +112,8 @@ const JoinProject = () => {
                     {projects.length === 0 ? (
                         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center">
                             <span className="material-symbols-outlined text-5xl sm:text-6xl text-gray-400 mb-4">check_circle</span>
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Niciun proiect disponibil</h3>
-                            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">Ești deja tester în toate proiectele existente.</p>
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">No projects available</h3>
+                            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">You are already a tester in all existing projects.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -133,15 +133,15 @@ const JoinProject = () => {
                                         </a>
                                     </div>
                                     <div className="flex items-center justify-between text-xs sm:text-sm mb-4">
-                                        <span className="text-gray-500 dark:text-gray-400">{project.members?.length || 0} membri</span>
-                                        <span className="text-gray-500 dark:text-gray-400">{project.testers?.length || 0} testeri</span>
+                                        <span className="text-gray-500 dark:text-gray-400">{project.members?.length || 0} members</span>
+                                        <span className="text-gray-500 dark:text-gray-400">{project.testers?.length || 0} testers</span>
                                     </div>
                                     <button
                                         onClick={() => handleJoin(project._id, project.name)}
                                         disabled={joiningId === project._id}
                                         className="w-full py-2 sm:py-3 bg-primary text-gray-900 font-bold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
                                     >
-                                        {joiningId === project._id ? 'Se procesează...' : 'Alătură-te ca Tester'}
+                                        {joiningId === project._id ? 'Processing...' : 'Join as Tester'}
                                     </button>
                                 </div>
                             ))}
