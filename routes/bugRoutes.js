@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/bugs/project/:projectId - returnare bug-uri pentru un proiect specific
+// GET  - returnare bug-uri pentru un proiect specific
 router.get('/project/:projectId', async (req, res) => {
     try {
         const { projectId } = req.params;
@@ -84,7 +84,7 @@ router.get('/project/:projectId', async (req, res) => {
     }
 });
 
-// GET /api/bugs/user/:userId - returnare bug-uri pentru un utilizator specific
+// GET - returnare bug-uri pentru un utilizator specific
 router.get('/user/:userId', requireRole('MP'), async (req, res) => {
     try {
         const { userId } = req.params;
@@ -185,6 +185,89 @@ router.post('/', requireRole('TST'), async (req, res) => {
     }
     catch (err) {
         console.error('Error creating bug:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// PATCH  - alocare bug catre un MP
+router.patch('/:bugId/assign', requireRole('MP'), async (req, res) => {
+    try {
+        const { bugId } = req.params;
+        const mpId = req.user.id;
+
+        // verificare existenta bug
+        const bug = await Bug.findById(bugId).populate('project');
+        if (!bug) {
+            return res.status(404).json({ message: 'Bug not found' });
+        }
+
+        // verificare ca MP-ul face parte din proiectul bug-ului
+        const project = await Project.findById(bug.project._id);
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        const isMember = project.members.some(memberId => memberId.toString() === mpId);
+        if (!isMember) {
+            return res.status(403).json({
+                message: 'Access denied: You are not a member of this project'
+            });
+        }
+
+        bug.assignedTo = mpId;
+
+        if (bug.status === 'Open') {
+            bug.status = 'In Progress';
+        }
+
+        await bug.save();
+
+        await bug.populate('reportedBy', 'name email role');
+        await bug.populate('assignedTo', 'name email role');
+        await bug.populate('project', 'name repoUrl');
+
+        res.json(bug);
+    } catch (err) {
+        console.error('Error assigning bug:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// PATCH  - marcare bug ca rezolvat
+router.patch('/:bugId/resolve', requireRole('MP'), async (req, res) => {
+    try {
+        const { bugId } = req.params;
+        const { resolveCommitUrl } = req.body;
+        const mpId = req.user.id;
+
+        // verificare existenta bug
+        const bug = await Bug.findById(bugId);
+        if (!bug) {
+            return res.status(404).json({ message: 'Bug not found' });
+        }
+
+        // verificare ca bug-ul este alocat MP-ului autentificat
+        if (!bug.assignedTo || bug.assignedTo.toString() !== mpId) {
+            return res.status(403).json({
+                message: 'Access denied: This bug is not assigned to you'
+            });
+        }
+
+        bug.status = 'Resolved';
+
+        if (resolveCommitUrl) {
+            bug.resolveCommitUrl = resolveCommitUrl;
+        }
+
+        await bug.save();
+
+        await bug.populate('reportedBy', 'name email role');
+        await bug.populate('assignedTo', 'name email role');
+        await bug.populate('project', 'name repoUrl');
+
+        res.json(bug);
+    } catch (err) {
+        console.error('Error resolving bug:', err);
         res.status(500).json({ message: 'Server error' });
     }
 });
