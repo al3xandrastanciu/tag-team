@@ -87,4 +87,27 @@ router.post('/login', async (req, res) => {
     }
 });
 
+const auth = require('../middleware/authMiddleware');
+
+router.get('/users', auth, async (req, res) => {
+    try {
+        const { role } = req.query;
+        let query = {};
+
+        if (role) {
+            query.role = role;
+        }
+
+        const users = await User.find(query)
+            .select('_id name email role')
+            .limit(100);
+
+        res.json(users);
+    }
+    catch (err) {
+        console.error('Error fetching users:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
@@ -7,11 +7,32 @@ const CreateProject = () => {
     const [name, setName] = useState('');
     const [repoUrl, setRepoUrl] = useState('');
     const [description, setDescription] = useState('');
+    const [selectedMembers, setSelectedMembers] = useState([]);
+    const [selectedTesters, setSelectedTesters] = useState([]);
+    const [availableMembers, setAvailableMembers] = useState([]);
+    const [availableTesters, setAvailableTesters] = useState([]);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const [mpResponse, tstResponse] = await Promise.all([
+                    api.get('/auth/users?role=MP'),
+                    api.get('/auth/users?role=TST')
+                ]);
+                const mpUsers = mpResponse.data.filter(u => u._id !== user?.id);
+                setAvailableMembers(mpUsers);
+                setAvailableTesters(tstResponse.data);
+            } catch (err) {
+                console.error('Error fetching users:', err);
+            }
+        };
+        fetchUsers();
+    }, [user?.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,16 +41,22 @@ const CreateProject = () => {
         setLoading(true);
 
         try {
+            const members = [user.id, ...selectedMembers];
+
             await api.post('/projects', {
                 name,
                 repoUrl,
-                description
+                description,
+                members,
+                testers: selectedTesters
             });
 
             setSuccess('Project created successfully!');
             setName('');
             setRepoUrl('');
             setDescription('');
+            setSelectedMembers([]);
+            setSelectedTesters([]);
 
             setTimeout(() => {
                 navigate('/projects');
@@ -39,6 +66,22 @@ const CreateProject = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const toggleMember = (userId) => {
+        setSelectedMembers(prev =>
+            prev.includes(userId)
+                ? prev.filter(id => id !== userId)
+                : [...prev, userId]
+        );
+    };
+
+    const toggleTester = (userId) => {
+        setSelectedTesters(prev =>
+            prev.includes(userId)
+                ? prev.filter(id => id !== userId)
+                : [...prev, userId]
+        );
     };
 
     if (user?.role !== 'MP') {
@@ -127,6 +170,69 @@ const CreateProject = () => {
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    <span className="flex items-center">
+                                        <span className="material-symbols-outlined text-lg mr-2">group</span>
+                                        Team Members (MP)
+                                    </span>
+                                </label>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">You will be added automatically as a member.</p>
+                                {availableMembers.length === 0 ? (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 italic">No other members available</p>
+                                ) : (
+                                    <div className="flex flex-wrap gap-2">
+                                        {availableMembers.map((member) => (
+                                            <button
+                                                key={member._id}
+                                                type="button"
+                                                onClick={() => toggleMember(member._id)}
+                                                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedMembers.includes(member._id)
+                                                        ? 'bg-blue-500 text-white'
+                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                    }`}
+                                            >
+                                                {selectedMembers.includes(member._id) && (
+                                                    <span className="material-symbols-outlined text-sm mr-1 align-middle">check</span>
+                                                )}
+                                                {member.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    <span className="flex items-center">
+                                        <span className="material-symbols-outlined text-lg mr-2">bug_report</span>
+                                        Testers (TST)
+                                    </span>
+                                </label>
+                                {availableTesters.length === 0 ? (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 italic">No testers available</p>
+                                ) : (
+                                    <div className="flex flex-wrap gap-2">
+                                        {availableTesters.map((tester) => (
+                                            <button
+                                                key={tester._id}
+                                                type="button"
+                                                onClick={() => toggleTester(tester._id)}
+                                                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedTesters.includes(tester._id)
+                                                        ? 'bg-purple-500 text-white'
+                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                    }`}
+                                            >
+                                                {selectedTesters.includes(tester._id) && (
+                                                    <span className="material-symbols-outlined text-sm mr-1 align-middle">check</span>
+                                                )}
+                                                {tester.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
                             {error && (
