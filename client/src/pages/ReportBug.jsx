@@ -17,7 +17,6 @@ const ReportBug = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Fetch available projects on mount
     useEffect(() => {
         const fetchProjects = async () => {
             try {
@@ -55,14 +54,12 @@ const ReportBug = () => {
             await api.post('/bugs', bugData);
             setSuccess('Bug raportat cu succes!');
 
-            // Reset form
             setTitle('');
             setDescription('');
             setSeverity('Medium');
             setPriority('Medium');
             setCommitUrl('');
 
-            // Redirect after 2 seconds
             setTimeout(() => {
                 navigate('/dashboard');
             }, 2000);
@@ -76,11 +73,11 @@ const ReportBug = () => {
     // Check if user is TST
     if (user?.role !== 'TST') {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-6">
-                <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center max-w-md">
-                    <span className="material-symbols-outlined text-6xl text-red-500 mb-4">block</span>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Acces Restricționat</h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-4 sm:p-6">
+                <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md text-center max-w-md w-full">
+                    <span className="material-symbols-outlined text-5xl sm:text-6xl text-red-500 mb-4">block</span>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Acces Restricționat</h2>
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6">
                         Doar utilizatorii cu rol de <strong>Tester (TST)</strong> pot raporta bug-uri.
                     </p>
                     <Link
@@ -96,12 +93,13 @@ const ReportBug = () => {
 
     return (
         <div className="bg-background-light dark:bg-background-dark font-display min-h-screen">
-            <div className="flex flex-col min-h-screen p-6">
-                <header className="mb-8 flex justify-between items-center">
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
+            <div className="flex flex-col min-h-screen p-4 sm:p-6">
+                {/* Header - Responsive */}
+                <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">BugCracker</h1>
                     <Link
                         to="/dashboard"
-                        className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200"
+                        className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200 text-center"
                     >
                         Înapoi
                     </Link>
@@ -109,19 +107,19 @@ const ReportBug = () => {
 
                 <main className="flex-grow">
                     <div className="w-full max-w-2xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Raportează Bug</h2>
-                        <p className="text-gray-500 dark:text-gray-400 mb-8">Completează formularul pentru a raporta un bug nou.</p>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900 dark:text-white">Raportează Bug</h2>
+                        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8">Completează formularul pentru a raporta un bug nou.</p>
 
-                        <form className="space-y-6" onSubmit={handleSubmit}>
-                            {/* Titlu */}
+                        <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+                            {/* Title */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="title">
                                     Titlu *
                                 </label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">bug_report</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">bug_report</span>
                                     <input
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="title"
                                         type="text"
                                         placeholder="ex: Butonul de submit nu funcționează"
@@ -132,13 +130,13 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Descriere */}
+                            {/* Description */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="description">
                                     Descriere
                                 </label>
                                 <textarea
-                                    className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 min-h-[120px]"
+                                    className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 min-h-[100px] sm:min-h-[120px] text-base resize-y"
                                     id="description"
                                     placeholder="Descrie bug-ul în detaliu..."
                                     value={description}
@@ -146,15 +144,15 @@ const ReportBug = () => {
                                 />
                             </div>
 
-                            {/* Proiect */}
+                            {/* Project */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="project">
                                     Proiect *
                                 </label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">folder</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">folder</span>
                                     <select
-                                        className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white"
+                                        className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white text-base"
                                         id="project"
                                         value={projectId}
                                         onChange={(e) => setProjectId(e.target.value)}
@@ -174,17 +172,17 @@ const ReportBug = () => {
                                 </div>
                             </div>
 
-                            {/* Severity & Priority Row */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Severity & Priority Row - Stack on mobile */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                 {/* Severity */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="severity">
                                         Severitate *
                                     </label>
                                     <div className="relative">
-                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">warning</span>
+                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">warning</span>
                                         <select
-                                            className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white"
+                                            className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white text-base"
                                             id="severity"
                                             value={severity}
                                             onChange={(e) => setSeverity(e.target.value)}
@@ -205,9 +203,9 @@ const ReportBug = () => {
                                         Prioritate *
                                     </label>
                                     <div className="relative">
-                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">flag</span>
+                                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">flag</span>
                                         <select
-                                            className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white"
+                                            className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white text-base"
                                             id="priority"
                                             value={priority}
                                             onChange={(e) => setPriority(e.target.value)}
@@ -228,9 +226,9 @@ const ReportBug = () => {
                                     Link Commit (opțional)
                                 </label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">link</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">link</span>
                                     <input
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="commitUrl"
                                         type="url"
                                         placeholder="https://github.com/user/repo/commit/..."
@@ -242,22 +240,22 @@ const ReportBug = () => {
 
                             {/* Error/Success Messages */}
                             {error && (
-                                <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-lg flex items-center">
-                                    <span className="material-symbols-outlined mr-2">error</span>
+                                <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 sm:p-4 rounded-lg flex items-center text-sm sm:text-base">
+                                    <span className="material-symbols-outlined mr-2 text-lg">error</span>
                                     {error}
                                 </div>
                             )}
                             {success && (
-                                <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 p-4 rounded-lg flex items-center">
-                                    <span className="material-symbols-outlined mr-2">check_circle</span>
+                                <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 p-3 sm:p-4 rounded-lg flex items-center text-sm sm:text-base">
+                                    <span className="material-symbols-outlined mr-2 text-lg">check_circle</span>
                                     {success}
                                 </div>
                             )}
 
                             {/* Submit Button */}
-                            <div className="pt-4">
+                            <div className="pt-2 sm:pt-4">
                                 <button
-                                    className="w-full bg-primary text-gray-900 font-bold py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-primary text-gray-900 font-bold py-3 sm:py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
                                     type="submit"
                                     disabled={loading || projects.length === 0}
                                 >

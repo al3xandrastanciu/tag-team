@@ -8,37 +8,45 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('MP');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
 
         try {
             await register(name, email, password, role);
             navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Eroare la înregistrare');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="bg-background-light font-display text-gray-900 antialiased">
+        <div className="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white antialiased min-h-screen">
             <div className="flex flex-col min-h-screen">
-                <header className="text-center pt-16 pb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 tracking-tight">BugCracker</h1>
+                {/* Header - Responsive */}
+                <header className="text-center pt-8 sm:pt-16 pb-4 sm:pb-8 px-4">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">BugCracker</h1>
                 </header>
-                <main className="flex-grow px-6">
+
+                <main className="flex-grow px-4 sm:px-6 pb-6">
                     <div className="w-full max-w-md mx-auto">
-                        <h2 className="text-3xl font-bold mb-8 text-gray-900">Înregistrare</h2>
-                        <form className="space-y-6" onSubmit={handleSubmit}>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-900 dark:text-white">Înregistrare</h2>
+
+                        <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+                            {/* Name */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Nume:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">Nume:</label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">person</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">person</span>
                                     <input
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 border border-gray-300 focus:ring-primary focus:border-primary text-gray-900 placeholder-gray-500"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="name"
                                         name="name"
                                         placeholder="e.g. Popescu Luca"
@@ -46,15 +54,18 @@ const Register = () => {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
+                                        autoComplete="name"
                                     />
                                 </div>
                             </div>
+
+                            {/* Email */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">Email:</label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">mail</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">mail</span>
                                     <input
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 border border-gray-300 focus:ring-primary focus:border-primary text-gray-900 placeholder-gray-500"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="email"
                                         name="email"
                                         placeholder="you@example.com"
@@ -62,15 +73,18 @@ const Register = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
+                                        autoComplete="email"
                                     />
                                 </div>
                             </div>
+
+                            {/* Password */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="password">Parolă:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">Parolă:</label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">lock</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">lock</span>
                                     <input
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 border border-gray-300 focus:ring-primary focus:border-primary text-gray-900 placeholder-gray-500"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 text-base"
                                         id="password"
                                         name="password"
                                         placeholder="••••••••"
@@ -78,15 +92,18 @@ const Register = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
+                                        autoComplete="new-password"
                                     />
                                 </div>
                             </div>
+
+                            {/* Role */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="role">Rol:</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="role">Rol:</label>
                                 <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">badge</span>
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">badge</span>
                                     <select
-                                        className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 border border-gray-300 focus:ring-primary focus:border-primary text-gray-900"
+                                        className="w-full pl-10 pr-10 py-3 appearance-none rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary text-gray-900 dark:text-white text-base"
                                         id="role"
                                         name="role"
                                         value={role}
@@ -98,23 +115,38 @@ const Register = () => {
                                     <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">expand_more</span>
                                 </div>
                             </div>
-                            {error && <div className="text-red-500 text-sm">{error}</div>}
-                            <div className="pt-4">
+
+                            {/* Error Message */}
+                            {error && (
+                                <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded-lg text-sm flex items-center">
+                                    <span className="material-symbols-outlined mr-2 text-lg">error</span>
+                                    {error}
+                                </div>
+                            )}
+
+                            {/* Submit Button */}
+                            <div className="pt-2 sm:pt-4">
                                 <button
-                                    className="w-full bg-primary text-black font-bold py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light transition-opacity duration-200"
+                                    className="w-full bg-primary text-black font-bold py-3 sm:py-4 px-4 rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
                                     type="submit"
+                                    disabled={loading}
                                 >
-                                    Înregistrare
+                                    {loading ? 'Se creează contul...' : 'Înregistrare'}
                                 </button>
                             </div>
                         </form>
-                        <p className="text-center mt-8 text-sm text-gray-600">
-                            Ai deja cont? <Link className="font-medium text-primary hover:underline" to="/login">Autentifică-te</Link>
+
+                        {/* Login Link */}
+                        <p className="text-center mt-6 sm:mt-8 text-sm text-gray-600 dark:text-gray-400">
+                            Ai deja cont?{' '}
+                            <Link className="font-medium text-primary hover:underline" to="/login">Autentifică-te</Link>
                         </p>
                     </div>
                 </main>
-                <footer className="py-6">
-                    <div className="w-36 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+
+                {/* Bottom indicator (mobile) */}
+                <footer className="py-4 sm:py-6">
+                    <div className="w-36 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"></div>
                 </footer>
             </div>
         </div>
