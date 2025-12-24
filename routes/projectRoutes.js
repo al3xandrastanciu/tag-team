@@ -50,6 +50,51 @@ router.get('/available', async (req, res) => {
     }
 });
 
+router.get('/joinable', requireRole('TST'), async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const projects = await Project.find({ testers: { $ne: userId } })
+            .populate('members', 'name')
+            .populate('testers', 'name')
+            .select('name repoUrl description members testers');
+
+        res.json(projects);
+    }
+    catch (err) {
+        console.error('Error fetching joinable projects:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.patch('/:id/join', requireRole('TST'), async (req, res) => {
+    try {
+        const projectId = req.params.id;
+        const userId = req.user.id;
+
+        const project = await Project.findById(projectId);
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        const isAlreadyTester = project.testers.some(t => t.equals(userId));
+        if (isAlreadyTester) {
+            return res.status(400).json({ message: 'Ești deja tester în acest proiect' });
+        }
+
+        project.testers.push(userId);
+        await project.save();
+
+        await project.populate('members', 'name email role');
+        await project.populate('testers', 'name email role');
+
+        res.json({ message: 'Te-ai alăturat proiectului ca tester', project });
+    }
+    catch (err) {
+        console.error('Error joining project:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 // Rutele urmatoare sunt doar pentru MP
 //POST- creare proiect
 router.post('/', requireRole('MP'), async (req, res) => {
